@@ -19,10 +19,15 @@ public class UserRestImpl implements UserRest {
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
         try{
-            userService.signUp(requestMap);
+            ResponseEntity<String> response = userService.signUp(requestMap);
+            if (response.getStatusCode().equals(HttpStatus.OK)) {
+                return StoreUtils.getResponseEntity(StoreConstants.SUCCESSFULLY_REGISTERED, HttpStatus.OK);
+            } else {
+                return response;
+            }
         }catch (Exception ex){
             ex.printStackTrace();
+            return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
