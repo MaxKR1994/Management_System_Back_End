@@ -18,7 +18,7 @@ import java.util.function.Function;
  */
 @Service
 public class JwtUtil {
-    private String secret = "managementsystem";
+    private final String secret = "managementsystem";
 
     /**
      The extractUsername method takes a JWT token as input and returns the subject (username)
