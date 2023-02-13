@@ -7,6 +7,7 @@ import com.inn.jewelry.POJO.User;
 import com.inn.jewelry.constents.StoreConstants;
 import com.inn.jewelry.dao.UserDao;
 import com.inn.jewelry.service.UserService;
+import com.inn.jewelry.utils.EmailUtils;
 import com.inn.jewelry.utils.StoreUtils;
 import com.inn.jewelry.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
     JwtUtil jwtUtil;
     @Autowired
     JwtFilter jwtFilter;
+    @Autowired
+    EmailUtils emailUtils;
 
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
@@ -123,6 +126,7 @@ public class UserServiceImpl implements UserService {
                Optional<User> optional = userDao.findById(Integer.parseInt(requestMap.get("id")));
                if (!optional.isEmpty()){
                     userDao.updateStatus(requestMap.get("status"),Integer.parseInt(requestMap.get("id")));
+                    sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(),userDao.getAllAdmin());
                     return StoreUtils.getResponseEntity(StoreConstants.USER_STATUS_UPDATED_SUCCESSFULLY,HttpStatus.OK);
                }else {
                    StoreUtils.getResponseEntity(StoreConstants.USER_DOESNT_EXIST,HttpStatus.OK);
@@ -134,5 +138,14 @@ public class UserServiceImpl implements UserService {
             ex.printStackTrace();
         }
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
+        allAdmin.remove(jwtFilter.getCurrentUser());
+        if(status != null && status.equalsIgnoreCase("true")){
+            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),StoreConstants.ACCOUNT_APPROVED,"USER:- " + user + "\n is approved by \nADMIN:= " + jwtFilter.getCurrentUser(),allAdmin);
+        }else {
+            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),StoreConstants.ACCOUNT_DISABLED,"USER:- " + user + "\n is disabled by \nADMIN:= " + jwtFilter.getCurrentUser(),allAdmin);
+        }
     }
 }
