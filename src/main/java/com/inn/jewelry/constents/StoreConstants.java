@@ -9,5 +9,7 @@ public class StoreConstants {
     public static final String UNAUTHORIZED_ACCESS="Unauthorized access.";
     public static final String USER_DOESNT_EXIST="User doesnt exist.";
     public static final String USER_STATUS_UPDATED_SUCCESSFULLY="User Status Updated Successfully.";
+    public static final String ACCOUNT_APPROVED="Account Approved.";
+    public static final String ACCOUNT_DISABLED="Account Disabled.";
 
 }
