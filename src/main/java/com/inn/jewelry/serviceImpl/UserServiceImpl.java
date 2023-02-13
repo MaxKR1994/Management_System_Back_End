@@ -1,6 +1,7 @@
 package com.inn.jewelry.serviceImpl;
 
 import com.inn.jewelry.JWT.CustomerUserDetailsService;
+import com.inn.jewelry.JWT.JwtFilter;
 import com.inn.jewelry.JWT.JwtUtil;
 import com.inn.jewelry.POJO.User;
 import com.inn.jewelry.constents.StoreConstants;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
     CustomerUserDetailsService customerUserDetailsService;
     @Autowired
     JwtUtil jwtUtil;
+    @Autowired
+    JwtFilter jwtFilter;
 
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
@@ -104,6 +107,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         try{
+            if (jwtFilter.isAdmin()){
+                return new ResponseEntity<>(userDao.getAllUser(), HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new ArrayList<>(),HttpStatus.UNAUTHORIZED);
+            }
 
         }catch (Exception ex){
             ex.printStackTrace();
