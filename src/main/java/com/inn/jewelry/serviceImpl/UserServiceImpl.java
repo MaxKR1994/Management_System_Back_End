@@ -148,4 +148,28 @@ public class UserServiceImpl implements UserService {
             emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),StoreConstants.ACCOUNT_DISABLED,"USER:- " + user + "\n is disabled by \nADMIN:= " + jwtFilter.getCurrentUser(),allAdmin);
         }
     }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return StoreUtils.getResponseEntity("true", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try{
+            User userObj = userDao.findByEmail(jwtFilter.getCurrentUser());
+            if (!userObj.equals(null)){
+                if (userObj.getPassword().equals(requestMap.get("oldPassword"))){
+                    userObj.setPassword(requestMap.get("newPassword"));
+                    userDao.save(userObj);
+                    return StoreUtils.getResponseEntity(StoreConstants.PASSWORD_UPDATED_SUCCESSFULLY,HttpStatus.OK);
+                }
+                return StoreUtils.getResponseEntity(StoreConstants.INCORRECT_OLD_PASSWORD,HttpStatus.BAD_REQUEST);
+            }
+            return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
