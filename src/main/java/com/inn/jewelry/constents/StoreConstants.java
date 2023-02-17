@@ -15,5 +15,8 @@ public class StoreConstants {
     public static final String PASSWORD_UPDATED_SUCCESSFULLY="Password updated successfully.";
     public static final String CHECK_YOUR_EMAIL_FOR_CREDENTIALS="Check your email for Credentials.";
     public static final String CREDENTIALS_FOR_STORE_MANAGEMENT_SYSTEM="Credentials for store management system.";
+    public static final String CATEGORY_ADDED_SUCCESSFULLY="Category added successfully.";
+    public static final String CATEGORY_ID_DOES_NOT_EXIST="Category Id does not exist.";
+    public static final String CATEGORY_UPDATED_SUCCESSFULLY="Category updated successfully.";
 
 }
