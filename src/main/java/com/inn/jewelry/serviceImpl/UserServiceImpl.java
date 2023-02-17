@@ -11,6 +11,7 @@ import com.inn.jewelry.utils.EmailUtils;
 import com.inn.jewelry.utils.StoreUtils;
 import com.inn.jewelry.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -147,5 +148,43 @@ public class UserServiceImpl implements UserService {
         }else {
             emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),StoreConstants.ACCOUNT_DISABLED,"USER:- " + user + "\n is disabled by \nADMIN:= " + jwtFilter.getCurrentUser(),allAdmin);
         }
+    }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return StoreUtils.getResponseEntity("true", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try{
+            User userObj = userDao.findByEmail(jwtFilter.getCurrentUser());
+            if (!userObj.equals(null)){
+                if (userObj.getPassword().equals(requestMap.get("oldPassword"))){
+                    userObj.setPassword(requestMap.get("newPassword"));
+                    userDao.save(userObj);
+                    return StoreUtils.getResponseEntity(StoreConstants.PASSWORD_UPDATED_SUCCESSFULLY,HttpStatus.OK);
+                }
+                return StoreUtils.getResponseEntity(StoreConstants.INCORRECT_OLD_PASSWORD,HttpStatus.BAD_REQUEST);
+            }
+            return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try{
+            User user = userDao.findByEmail(requestMap.get("email"));
+            if(!Objects.isNull(user) && !Strings.isNotEmpty(user.getEmail())){
+                emailUtils.forgotMail(user.getEmail(),StoreConstants.CREDENTIALS_FOR_STORE_MANAGEMENT_SYSTEM,user.getPassword());
+            }
+            return StoreUtils.getResponseEntity(StoreConstants.CHECK_YOUR_EMAIL_FOR_CREDENTIALS,HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
