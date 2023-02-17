@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@NamedQuery(name = "Category.getAllCategory", query = "select c from Category c")
+
 @Data
 @Entity
 @DynamicUpdate
@@ -14,7 +16,7 @@ import java.io.Serializable;
 @Table(name = "category")
 public class Category implements Serializable {
 
-    private static final long serialVersionId = 1L;
+    private static final long serialVersionUId = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
