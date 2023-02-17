@@ -11,6 +11,7 @@ import com.inn.jewelry.utils.EmailUtils;
 import com.inn.jewelry.utils.StoreUtils;
 import com.inn.jewelry.wrapper.UserWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -167,6 +168,20 @@ public class UserServiceImpl implements UserService {
                 return StoreUtils.getResponseEntity(StoreConstants.INCORRECT_OLD_PASSWORD,HttpStatus.BAD_REQUEST);
             }
             return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try{
+            User user = userDao.findByEmail(requestMap.get("email"));
+            if(!Objects.isNull(user) && !Strings.isNotEmpty(user.getEmail())){
+                emailUtils.forgotMail(user.getEmail(),StoreConstants.CREDENTIALS_FOR_STORE_MANAGEMENT_SYSTEM,user.getPassword());
+            }
+            return StoreUtils.getResponseEntity(StoreConstants.CHECK_YOUR_EMAIL_FOR_CREDENTIALS,HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }
