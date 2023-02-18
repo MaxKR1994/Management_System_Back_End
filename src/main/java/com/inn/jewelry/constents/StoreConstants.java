@@ -18,5 +18,6 @@ public class StoreConstants {
     public static final String CATEGORY_ADDED_SUCCESSFULLY="Category added successfully.";
     public static final String CATEGORY_ID_DOES_NOT_EXIST="Category Id does not exist.";
     public static final String CATEGORY_UPDATED_SUCCESSFULLY="Category updated successfully.";
+    public static final String PRODUCT_ADDED_SUCCESSFULLY="Product added successfully.";
 
 }
