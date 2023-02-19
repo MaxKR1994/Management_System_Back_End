@@ -1,6 +1,5 @@
 package com.inn.jewelry.rest;
 
-import com.inn.jewelry.POJO.Category;
 import com.inn.jewelry.wrapper.ProductWrapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,5 +18,8 @@ public interface ProductRest {
 
     @PostMapping(path="/update")
     ResponseEntity<String> updateProduct(@RequestBody Map<String,String> requestMap);
+
+    @PostMapping(path="/delete/{id}")
+    ResponseEntity<String> deleteProduct(@PathVariable Integer id);
 
 }
