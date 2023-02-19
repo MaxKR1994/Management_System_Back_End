@@ -122,6 +122,16 @@ public class ProductServiceImpl implements ProductService {
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<List<ProductWrapper>> getByCategory(Integer id) {
+        try{
+            return new ResponseEntity<>(productDao.getProductByCategory(id),HttpStatus.OK);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private boolean validaiteProductMap(Map<String, String> requestMap, boolean validateId) {
         if(requestMap.containsKey("name")){
             if (requestMap.containsKey("id") && validateId){
