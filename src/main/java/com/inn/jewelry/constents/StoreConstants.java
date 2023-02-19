@@ -21,5 +21,7 @@ public class StoreConstants {
     public static final String PRODUCT_ADDED_SUCCESSFULLY="Product added successfully.";
     public static final String PRODUCT_ID_DOES_NOT_EXIST="Product Id does not exist.";
     public static final String PRODUCT_UPDATED_SUCCESSFULLY="Product updated successfully.";
+    public static final String PRODUCT_DELETED_SUCCESSFULLY="Product deleted successfully.";
+    public static final String PRODUCT_STATUS_UPDATED_SUCCESSFULLY="Product status updated successfully.";
 
 }
