@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -53,6 +54,32 @@ public class ProductServiceImpl implements ProductService {
             ex.printStackTrace();
         }
         return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> updateProduct(Map<String, String> requestMap) {
+        try{
+            if(jwtFilter.isAdmin()){
+                if(validaiteProductMap(requestMap,true)){
+                    Optional<Product> optional = productDao.findById(Integer.parseInt(requestMap.get("id")));
+                    if (!optional.isEmpty()){
+                        Product product = getProductMap(requestMap,true);
+                        product.setStatus(optional.get().getStatus());
+                        productDao.save(getProductMap(requestMap,true));
+                        return StoreUtils.getResponseEntity(StoreConstants.PRODUCT_UPDATED_SUCCESSFULLY,HttpStatus.OK);
+                    }else {
+                        return StoreUtils.getResponseEntity(StoreConstants.PRODUCT_ID_DOES_NOT_EXIST,HttpStatus.OK);
+                    }
+                } else {
+                    return StoreUtils.getResponseEntity(StoreConstants.INVALID_DATA,HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                return StoreUtils.getResponseEntity(StoreConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private boolean validaiteProductMap(Map<String, String> requestMap, boolean validateId) {
