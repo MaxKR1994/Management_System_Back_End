@@ -25,5 +25,7 @@ public class StoreConstants {
     public static final String PRODUCT_STATUS_UPDATED_SUCCESSFULLY="Product status updated successfully.";
     public static final String REQUIRED_DATA_NOT_FOUND="Required data not found.";
     public static final String STORE_LOCATION="D:\\Management System Stored files";
+    public static final String BILL_ID_DOES_NOT_EXIST="Bill id does not exist.";
+    public static final String BILL_DELETED_SUCCESSFULLY="Bill deleted successfully.";
 
 }
