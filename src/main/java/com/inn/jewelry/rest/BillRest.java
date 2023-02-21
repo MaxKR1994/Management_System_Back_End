@@ -11,6 +11,6 @@ import java.util.Map;
 public interface BillRest {
 
     @PostMapping(path = "/generateReport")
-    ResponseEntity<String> generateReport(@RequestBody Map<String,String> requestMap);
+    ResponseEntity<String> generateReport(@RequestBody Map<String,Object> requestMap);
 
 }
