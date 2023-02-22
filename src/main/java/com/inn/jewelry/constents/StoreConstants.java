@@ -1,5 +1,11 @@
 package com.inn.jewelry.constents;
 
+/**
+
+ This class contains constant strings used throughout the Store Management System.
+ These strings represent messages that are displayed to users in various scenarios,
+ such as successful operations or errors that occur during runtime.
+ */
 public class StoreConstants {
 
     public static final String SOMETHING_WENT_WRONG="Something Went Wrong (";
