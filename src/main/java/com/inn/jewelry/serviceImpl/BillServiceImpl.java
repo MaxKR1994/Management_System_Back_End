@@ -195,6 +195,12 @@ public class BillServiceImpl implements BillService {
                 });
     }
 
+    /**
+
+     Method to add rows to the PDF table
+     @param table - the table to which rows need to be added
+     @param data - a map containing the data to be added in the rows
+     */
     private void addRows(PdfPTable table, Map<String, Object> data) {
         log.info("addRows");
         table.addCell((String) data.get("name"));
@@ -204,6 +210,11 @@ public class BillServiceImpl implements BillService {
         table.addCell(Double.toString((Double)data.get("total")));
     }
 
+    /**
+
+     Method to get all bills
+     @return - a ResponseEntity containing the list of all bills
+     */
     @Override
     public ResponseEntity<List<Bill>> getBills() {
         List<Bill> list = new ArrayList<>();
@@ -215,6 +226,12 @@ public class BillServiceImpl implements BillService {
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
+    /**
+
+     Method to generate a PDF report and return its byte array
+     @param requestMap - a map containing the details needed to generate the PDF report
+     @return - a ResponseEntity containing the byte array of the PDF report
+     */
     @Override
     public ResponseEntity<byte[]> getPdf(Map<String, Object> requestMap) {
         log.info("Inside getPdf : requestMap {}", requestMap);
@@ -247,6 +264,13 @@ public class BillServiceImpl implements BillService {
         return byteArray;
     }
 
+    /**
+
+     Method to get the byte array of a file at the specified file path
+     @param id - the path of the file whose byte array is to be retrieved
+     @return - the byte array of the file
+     @throws Exception
+     */
     @Override
     public ResponseEntity<String> deleteBill(Integer id) {
         try{
