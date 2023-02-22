@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmailUtils emailUtils;
 
+    /**
+     * Registers a new user.
+     *
+     * @param requestMap a map containing user details like name, contact number, email and password
+     * @return a ResponseEntity containing a success message if the user was registered successfully,
+     * an error message if the email already exists or the request is invalid
+     */
     @Override
     public ResponseEntity<String> signUp(Map<String, String> requestMap) {
         log.info("Inside signUp{}",requestMap);
@@ -60,6 +67,12 @@ public class UserServiceImpl implements UserService {
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Validates whether the given map contains required fields for signing up a user.
+     *
+     * @param requestMap a map containing user details
+     * @return true if the map contains required fields, false otherwise
+     */
     private boolean validateSignUpMap(Map<String,String> requestMap){
         if(requestMap.containsKey("name") && requestMap.containsKey("contactnumber")
                 && requestMap.containsKey("email") && requestMap.containsKey("password")){
@@ -69,6 +82,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Creates a User object from the given map.
+     *
+     * @param requestMap a map containing user details
+     * @return a User object with the given user details
+     */
     private User getUserFromMap(Map<String,String> requestMap){
         User user = new User();
         user.setName(requestMap.get("name"));
@@ -80,6 +99,12 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Logs in a user.
+     *
+     * @param requestMap a map containing user details like email and password
+     * @return a ResponseEntity containing a JWT token if the login was successful, an error message otherwise
+     */
     @Override
     public ResponseEntity<String> login(Map<String, String> requestMap) {
         log.info("");
@@ -105,6 +130,12 @@ public class UserServiceImpl implements UserService {
                 "Bad Credentials. "+"\"}",HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Gets all users.
+     *
+     * @return a ResponseEntity containing a list of UserWrapper objects representing all users
+     * if the user making the request is an admin, an error message otherwise
+     */
     @Override
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         try{
@@ -120,6 +151,13 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<List<UserWrapper>>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Updates the status of a user.
+     *
+     * @param requestMap a map containing user ID and status
+     * @return a ResponseEntity containing a success message if the user status was updated successfully,
+     * an error message if the user doesn't exist, the request is unauthorized, or an error occurred
+     */
     @Override
     public ResponseEntity<String> update(Map<String, String> requestMap) {
         try{
@@ -141,6 +179,13 @@ public class UserServiceImpl implements UserService {
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Sends an email notification to all admins after updating a user's status.
+     *
+     * @param status the new status of the user
+     * @param user the email of the user whose status was updated
+     * @param allAdmin a list of all admin email addresses
+     */
     private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
         allAdmin.remove(jwtFilter.getCurrentUser());
         if(status != null && status.equalsIgnoreCase("true")){
@@ -150,11 +195,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Checks if the JWT token is valid.
+     *
+     * @return a ResponseEntity containing an OK status if the token is valid,
+     * an UNAUTHORIZED status otherwise
+     */
     @Override
     public ResponseEntity<String> checkToken() {
         return StoreUtils.getResponseEntity("true", HttpStatus.OK);
     }
 
+    /**
+     * Changes the password for the user with the given username and returns a boolean indicating
+     * whether the password was successfully changed.
+     *
+     * @param requestMap a map containing the username, current password, and new password
+     * @return true if the password was successfully changed, false otherwise
+     */
     @Override
     public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
         try{
@@ -174,6 +232,12 @@ public class UserServiceImpl implements UserService {
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Sends a password reset email to the user with the given email address.
+     *
+     * @param requestMap a map containing the user's email address
+     * @return true if the email was sent successfully, false otherwise
+     */
     @Override
     public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
         try{

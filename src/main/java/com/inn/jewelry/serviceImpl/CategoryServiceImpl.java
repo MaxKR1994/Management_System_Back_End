@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+
+ This class implements the CategoryService interface and provides the implementation of various operations related to
+ category management such as adding a new category, retrieving all categories, and updating an existing category.
+ */
 @Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -28,6 +33,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     JwtFilter jwtFilter;
 
+    /**
+
+     Adds a new category to the system.
+     @param requestMap a map containing the category data, such as name and ID.
+     @return ResponseEntity a response containing the status of the operation.
+     */
     @Override
     public ResponseEntity<String> addNewCategory(Map<String, String> requestMap) {
         try{
@@ -45,6 +56,13 @@ public class CategoryServiceImpl implements CategoryService {
         return StoreUtils.getResponseEntity(StoreConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+
+     Validates a category map to ensure that it contains the necessary data.
+     @param requestMap a map containing the category data, such as name and ID.
+     @param validateId a flag indicating whether to validate the ID field.
+     @return boolean true if the map is valid, false otherwise.
+     */
     private boolean validateCategoryMap(Map<String, String> requestMap, boolean validateId) {
         if (requestMap.containsKey("name")){
             if (requestMap.containsKey("id") && validateId){
@@ -56,6 +74,13 @@ public class CategoryServiceImpl implements CategoryService {
         return false;
     }
 
+    /**
+     * Constructs a new Category object from the given map.
+     *
+     * @param requestMap the map containing the category data
+     * @param isAdd      a boolean indicating if this is a new category being added
+     * @return a new Category object constructed from the given map
+     */
     private Category getCategoryFromMap(Map<String, String> requestMap, Boolean isAdd){
         Category category = new Category();
         if(isAdd){
@@ -65,6 +90,12 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
 
+    /**
+
+     Retrieves all categories in the system.
+     @param filterValue a filter value to narrow down the results.
+     @return ResponseEntity a response containing the list of categories.
+     */
     @Override
     public ResponseEntity<List<Category>> getAllCategory(String filterValue) {
         try{
@@ -78,6 +109,12 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResponseEntity<List<Category>>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+
+     Updates an existing category in the system.
+     @param requestMap a map containing the category data, such as name and ID.
+     @return ResponseEntity a response containing the status of the operation.
+     */
     @Override
     public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
         try{
