@@ -8,7 +8,6 @@ import com.inn.jewelry.dao.ProductDao;
 import com.inn.jewelry.service.ProductService;
 import com.inn.jewelry.utils.StoreUtils;
 import com.inn.jewelry.wrapper.ProductWrapper;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
