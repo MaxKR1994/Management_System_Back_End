@@ -16,6 +16,13 @@ import java.util.function.Function;
  It provides methods for extracting information from a JWT token such as the subject (username),
  expiration date and all claims.
  */
+
+/**
+
+ TThe @Service annotation is used to indicate that a class is a Spring-managed service bean.
+ It is used to indicate that the annotated class performs
+ some business logic and is eligible for dependency injection.
+ */
 @Service
 public class JwtUtil {
     private final String secret = "managementsystem";
@@ -62,16 +69,36 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
+    /**
+
+     The isTokenExpired method takes a JWT token as input and returns whether the token has expired.
+     @param token the JWT token
+     @return true if the token has expired, false otherwise
+     */
     private Boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());
     }
 
+    /**
+
+     The generateToken method takes a username and role as input and returns a new JWT token containing the claims.
+     @param username the username to include in the token
+     @param role the role to include in the token
+     @return the JWT token with the claims
+     */
     public String generateToken(String username, String role){
         Map<String,Object> claims = new HashMap<>();
         claims.put("role", role);
         return createToken(claims,username);
     }
 
+    /**
+
+     The createToken method takes claims and a subject as input and returns a new JWT token with the claims and subject.
+     @param claims the claims to include in the token
+     @param subject the subject to include in the token
+     @return the JWT token with the claims and subject
+     */
     private String createToken(Map<String,Object> claims, String subject){
         return Jwts.builder()
                 .setClaims(claims)
@@ -82,6 +109,13 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+
+     Validates a JSON Web Token (JWT) by checking if the provided UserDetails match the claims of the token.
+     @param token the JWT to validate
+     @param userDetails the UserDetails to match the token against
+     @return true if the token is valid, false otherwise
+     */
     public Boolean validateToken(String token, UserDetails userDetails){
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));

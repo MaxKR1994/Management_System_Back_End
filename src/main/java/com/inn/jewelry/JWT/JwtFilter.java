@@ -15,9 +15,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+
+ JwtFilter is responsible for filtering incoming requests, extracting and validating JWT tokens, and authenticating users.
+ */
+
+/**
+
+ JThe @Component annotation is used to indicate that a class is a component or a bean in the Spring framework.
+ When this annotation is added to a class, Spring's component scanning mechanism automatically detects and registers
+ the class as a bean. The bean can then be used and injected into other parts of the application
+ using Spring's dependency injection.
+ */
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
+    /**
+
+     The @Autowired annotation is used in Spring to automatically inject dependencies
+     into a class. When a class has a field or constructor annotated with @Autowired,
+     Spring will search for a bean of the corresponding type and automatically wire it into the class.
+     This can greatly simplify dependency management and make the code more modular and easy to understand.
+     */
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
@@ -26,6 +45,12 @@ public class JwtFilter extends OncePerRequestFilter {
     Claims claims = null;
     private String userName = null;
 
+    /**
+     * This method extracts the JWT token from the request header, validates the token, and sets the user details in the security context.
+     * @param httpServletRequest The HTTP request object.
+     * @param httpServletResponse The HTTP response object.
+     * @param filterChain The filter chain object.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         if (httpServletRequest.getServletPath().matches("/user/login|/user/forgotPassword|/user/signup")) {
@@ -51,14 +76,27 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
     }
+
+    /**
+     * This method checks whether the current user is an admin.
+     * @return True if the current user is an admin, false otherwise.
+     */
     public boolean isAdmin(){
         return "admin".equalsIgnoreCase((String) claims.get("role"));
     }
 
+    /**
+     * This method checks whether the current user is a regular user.
+     * @return True if the current user is a regular user, false otherwise.
+     */
     public boolean isUser(){
         return "user".equalsIgnoreCase((String) claims.get("role"));
     }
 
+    /**
+     * This method returns the username of the current user.
+     * @return The username of the current user.
+     */
     public String getCurrentUser(){
         return userName;
     }
