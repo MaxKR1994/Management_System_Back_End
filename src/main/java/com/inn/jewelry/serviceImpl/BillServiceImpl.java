@@ -33,17 +33,6 @@ import java.util.stream.Stream;
  This code is generating a PDF document for a bill for a store. The PDF document includes information about the customer,
  the products purchased, and the total amount of the purchase. The code validates that all the required information is present
  in the request map and inserts the bill into the database.
-
- The code uses the iText library to create the PDF document. The generateReport method is called when a bill needs to be generated.
- The method takes in a Map object, which contains the required information to generate a bill.
- The method first validates that all the required fields are present in the request map.
- If any of the fields are missing, the method returns a response entity with an error message.
-
- If all the required fields are present, the method creates a fileName for the bill.
- If the isGenerate flag is not present in the request map or is true, the method inserts the bill into the database.
- The method then creates a PDF document and adds the customer information, product details, and total amount of the purchase
- to the PDF document. Finally, the method saves the PDF document to the file system and returns a response entity
- with the fileName of the generated bill.
  */
 @Slf4j
 @Service
