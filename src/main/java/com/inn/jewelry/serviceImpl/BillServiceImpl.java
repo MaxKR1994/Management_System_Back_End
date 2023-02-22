@@ -28,6 +28,23 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+
+ This code is generating a PDF document for a bill for a store. The PDF document includes information about the customer,
+ the products purchased, and the total amount of the purchase. The code validates that all the required information is present
+ in the request map and inserts the bill into the database.
+
+ The code uses the iText library to create the PDF document. The generateReport method is called when a bill needs to be generated.
+ The method takes in a Map object, which contains the required information to generate a bill.
+ The method first validates that all the required fields are present in the request map.
+ If any of the fields are missing, the method returns a response entity with an error message.
+
+ If all the required fields are present, the method creates a fileName for the bill.
+ If the isGenerate flag is not present in the request map or is true, the method inserts the bill into the database.
+ The method then creates a PDF document and adds the customer information, product details, and total amount of the purchase
+ to the PDF document. Finally, the method saves the PDF document to the file system and returns a response entity
+ with the fileName of the generated bill.
+ */
 @Slf4j
 @Service
 public class BillServiceImpl implements BillService {
@@ -101,6 +118,11 @@ public class BillServiceImpl implements BillService {
                 requestMap.containsKey("totalAmount");
     }
 
+    /**
+     The insertBill method inserts a bill into the database.
+     The method creates a Bill object and sets its properties based on the request map.
+     The method then saves the Bill object to the database using the BillDao.
+     */
     private void insertBill(Map<String, Object> requestMap) {
         try{
             Bill bill = new Bill();
@@ -118,6 +140,10 @@ public class BillServiceImpl implements BillService {
         }
     }
 
+    /**
+     The setRectangleInPdf method sets a rectangle in the PDF document.
+     The rectangle is used as a border around the PDF document.
+     */
     private void setRectangleInPdf(Document document) throws DocumentException {
         log.info("Inside setRectangleInPdf");
         Rectangle rect = new Rectangle(577,825,18,15);
@@ -130,6 +156,10 @@ public class BillServiceImpl implements BillService {
         document.add(rect);
     }
 
+    /**
+     The getFont method returns a font object based on the font type.
+     The method uses the FontFactory class to create the font object.
+     */
     private Font getFont(String type){
         log.info("Inside getFont");
         switch (type){
@@ -146,6 +176,10 @@ public class BillServiceImpl implements BillService {
             }
     }
 
+    /**
+     The addTableHeader method adds the header row to the product details table in the PDF document.
+     The method adds five columns to the table: Name, Category, Quantity, Price, and SubTotal
+     */
     private void addTableHeader(PdfPTable table) {
         log.info("Inside addTableHeader");
         Stream.of("Name", "Category", "Quantity", "Price", "SubTotal")
