@@ -1,6 +1,6 @@
 package com.inn.jewelry.restImpl;
 
-import com.inn.jewelry.constents.StoreConstants;
+import com.inn.jewelry.constants.StoreConstants;
 import com.inn.jewelry.rest.UserRest;
 import com.inn.jewelry.service.UserService;
 import com.inn.jewelry.utils.StoreUtils;

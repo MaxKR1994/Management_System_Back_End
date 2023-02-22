@@ -4,7 +4,7 @@ import com.inn.jewelry.JWT.CustomerUserDetailsService;
 import com.inn.jewelry.JWT.JwtFilter;
 import com.inn.jewelry.JWT.JwtUtil;
 import com.inn.jewelry.POJO.User;
-import com.inn.jewelry.constents.StoreConstants;
+import com.inn.jewelry.constants.StoreConstants;
 import com.inn.jewelry.dao.UserDao;
 import com.inn.jewelry.service.UserService;
 import com.inn.jewelry.utils.EmailUtils;

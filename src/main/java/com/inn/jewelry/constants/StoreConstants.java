@@ -1,4 +1,4 @@
-package com.inn.jewelry.constents;
+package com.inn.jewelry.constants;
 
 /**
 

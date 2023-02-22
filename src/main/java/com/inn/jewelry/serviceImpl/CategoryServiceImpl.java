@@ -2,7 +2,7 @@ package com.inn.jewelry.serviceImpl;
 
 import com.inn.jewelry.JWT.JwtFilter;
 import com.inn.jewelry.POJO.Category;
-import com.inn.jewelry.constents.StoreConstants;
+import com.inn.jewelry.constants.StoreConstants;
 import com.inn.jewelry.dao.CategoryDao;
 import com.inn.jewelry.service.CategoryService;
 import com.inn.jewelry.utils.StoreUtils;

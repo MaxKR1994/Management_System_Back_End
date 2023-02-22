@@ -1,7 +1,7 @@
 package com.inn.jewelry.restImpl;
 
 import com.inn.jewelry.POJO.Bill;
-import com.inn.jewelry.constents.StoreConstants;
+import com.inn.jewelry.constants.StoreConstants;
 import com.inn.jewelry.rest.BillRest;
 import com.inn.jewelry.service.BillService;
 import com.inn.jewelry.utils.StoreUtils;
