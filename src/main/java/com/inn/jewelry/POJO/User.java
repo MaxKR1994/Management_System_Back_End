@@ -22,7 +22,7 @@ import java.io.Serializable;
  * Retrieves a list of UserWrapper objects for all users with the "user" role.
  * @return a list of UserWrapper objects for all users with the "user" role
  */
-@NamedQuery(name = "User.getAllUser", query = "select new com.inn.jewelry.wrapper.UserWrapper(u.id, u.name, u.email, u.contactnumber, u.status) from User u where u.role='user'")
+@NamedQuery(name = "User.getAllUser", query = "select new com.inn.jewelry.wrapper.UserWrapper(u.id, u.name, u.email, u.contactNumber, u.status) from User u where u.role='user'")
 
 /**
  * Updates the status of a user by their ID.
@@ -55,8 +55,8 @@ public class User implements Serializable {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "contactnumber")
-    private String contactnumber;
+    @Column(name = "contactNumber")
+    private String contactNumber;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
